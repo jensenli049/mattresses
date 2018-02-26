@@ -42,24 +42,23 @@ void ident(struct matrix *m) {
   a*b -> b
 */
 void matrix_mult(struct matrix *a, struct matrix *b) {
-  
-  struct matrix * c = malloc(sizeof(struct matrix));
-  int x, i, j;
-  int res[m1][n2];
-  for (i = 0; i < m1; i++) 
-    for (j = 0; j < n2; j++) {
-      res[i][j] = 0;
-      for (x = 0; x < m2; x++) {
-	*(*(res + i) + j) += *(*(mat1 + i) + x) *
-	  *(*(mat2 + x) + j);
+  int i = 0;
+  struct matrix *new = new_matrix(a->rows, b->cols);
+  while(i < a->rows){
+    int k = 0;
+    while(k < b->cols){
+      int sum = 0;
+      int z;
+      for(z = 0; z < a->cols; z++){
+        sum+= a->m[i][z] * b-> m[z][k];
       }
+      new->m[i][k] = sum;
+      k++;
     }
-  for (i = 0; i < m1; i++) {
-    for (j = 0; j < n2; j++) {
-      printf("%d ", *(*(res + i) + j));
-    }
-    printf("\n");
+    i++;
   }
+  copy_matrix(new, b);
+  free_matrix(new);
 }
     
     
